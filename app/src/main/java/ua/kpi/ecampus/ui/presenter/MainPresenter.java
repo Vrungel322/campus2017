@@ -3,18 +3,11 @@ package ua.kpi.ecampus.ui.presenter;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-
-import ua.kpi.ecampus.model.Subsystem;
-import ua.kpi.ecampus.model.pojo.User;
-import ua.kpi.ecampus.ui.Navigator;
-import ua.kpi.ecampus.ui.Preference;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.inject.Inject;
-
+import timber.log.Timber;
 import ua.kpi.ecampus.model.Subsystem;
 import ua.kpi.ecampus.model.pojo.User;
 import ua.kpi.ecampus.ui.Navigator;
@@ -53,6 +46,7 @@ public class MainPresenter extends BasePresenter {
     }
 
     public void startActivityBasedOn(int position) {
+        Timber.e("startActivityBasedOn "+ position);
         switch (position) {
             case 0:
                 mNavigator.startBulletinBoardActivity();
@@ -62,8 +56,11 @@ public class MainPresenter extends BasePresenter {
             case 2:
                 break;
             case 3:
-                if(userIsStudent())
+                if(userIsStudent()) {
+                    Timber.e("startActivityBasedOn userIsStudent" + userIsStudent());
+
                     mNavigator.startVotingStudentActivity();
+                }
                 break;
         }
     }
@@ -77,6 +74,9 @@ public class MainPresenter extends BasePresenter {
         final Integer studentId = 5;
         List<Integer> ids = BulletinPredicates.getIdsCollection
                 (User.getInstance().position);
+        for (Integer id : ids) {
+            Timber.e("userIsStudent " + id);
+        }
         return ids.contains(studentId);
     }
 
